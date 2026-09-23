@@ -1,0 +1,22 @@
+# Thin caller → the org-wide reusable checks (gitleaks + zizmor + actionlint + hygiene).
+# The logic lives once in tyto-project/.github; bump the SHA below to pick up a change there.
+#
+# NOTE (supply-chain, Rule 7 (supply-chain-security.md)): pinned to a commit SHA rather than
+# @main — tyto-project/.github's main has no branch protection and no tags (verified live via
+# the GitHub API, 2026-08-24), so an unpinned ref here would let anyone with push access to that
+# repo change what this repo's CI runs, unreviewed. To bump: resolve the new SHA (gh api
+# repos/tyto-project/.github/commits/main --jq .sha), review the diff at that commit, then
+# update both the SHA below and this comment's date.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    uses: tyto-project/.github/.github/workflows/checks.yml@76ac73e5fce9ef664a3771cddfae32cec572726e # main @ 2026-08-24
